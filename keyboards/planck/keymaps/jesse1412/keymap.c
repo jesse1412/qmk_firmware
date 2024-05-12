@@ -18,22 +18,14 @@
 #include "muse.h"
 #include "keymap_uk.h"
 
-enum planck_layers { _COLEMAK, _QWERTY, _OSRS, _NAV, _KEYPAD, _KEYPAD_SHIFT, _LOWER, _RAISE, _ADJUST, _SQL, _TG_ESC };
+enum planck_layers { _COLEMAK, _QWERTY, _OSRS, _NAV, _KEYPAD, _KEYPAD_SHIFT, _LOWER, _RAISE, _MOUSE, _ADJUST };
 
 enum planck_keycodes {
     COLEMAK = SAFE_RANGE,
     QWERTY,
     OSRS,
-    TMPTBL,
-    NONTMP,
-    VOLTBL,
-    NONVOL,
-    CLDS,
-    CLSC,
-    CLDSSC, //COLUMN DESCRIPTION SEARCH
-    QAL,
-    PEDPUB,
-    CTLSHT
+    CTLSHT,
+    SHTCLK
 };
 
 #define LOWER MO(_LOWER)
@@ -42,8 +34,6 @@ enum planck_keycodes {
 #define KP MO(_KEYPAD)
 #define KP_SHFT MO(_KEYPAD_SHIFT)
 #define TG_ESC TG(_TG_ESC)
-
-//TODO: Layer for work macros.
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Blank template
@@ -126,24 +116,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LCTL,  KC_LGUI, KC_LALT, NAV,     LOWER,   KC_SPC,  KC_SPC,  RAISE,   KP,      KP_SHFT, UK_HASH, KC_ENT
 ),
 
-/* Disable escape
-* ,-----------------------------------------------------------------------------------.
-* |      |      |      |      |      |      |      |      |      |      |      |      |
-* |------+------+------+------+------+------+------+------+------+------+------+------|
-* | xxx  |      |      |      |      |      |      |      |      |      |      |      |
-* |------+------+------+------+------+------+------+------+------+------+------+------|
-* |      |      |      |      |      |      |      |      |      |      |      |      |
-* |------+------+------+------+------+------+------+------+------+------+------+------|
-* |      |      |      |      |      |             |      |      |      |      |      |
-* `-----------------------------------------------------------------------------------'
-*/
-[_TG_ESC] = LAYOUT_planck_grid(
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-    XXXXXXX, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
-),
-
 /* Navigation (Nav)
 * ,-----------------------------------------------------------------------------------.
 * |      | PGUP | DEL  |  UP  | BKSP | PGDN |      |      |      |      |      |      |
@@ -200,7 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* RAISE
  * ,-----------------------------------------------------------------------------------.
- * |   ~  |   !  |   "  |   £  |   $  |   %  |   ^  |   &  |   *  |   [  |   ]  | Bksp |
+ * |   `  |   !  |   "  |   £  |   $  |   %  |   ^  |   &  |   *  |   [  |   ]  | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |  |   |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   _  |   +  |   (  |   )  |  |   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -210,10 +182,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_grid(
-    UK_TILD, KC_EXLM, UK_DQUO, S(UK_3), KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LBRC, KC_RBRC, KC_BSPC,
+    KC_GRAVE,KC_EXLM, UK_DQUO, S(UK_3), KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LBRC, KC_RBRC, KC_BSPC,
     UK_PIPE, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS,    KC_PLUS,    KC_LPRN, KC_RPRN, UK_PIPE,
     _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX,    XXXXXXX,    KC_LT,   KC_GT,   KC_CAPS,
     _______, _______, _______, _______, _______, _______, _______, XXXXXXX,    XXXXXXX,    KC_LCBR, KC_RCBR, _______
+),
+
+/* Mouse (NAV + Raise).
+* ,-----------------------------------------------------------------------------------.
+* |      |      |LFTCLK|  UP  |RTCLK |      |      |      |      |      |      |      |
+* |------+------+------+------+------+------+------+------+------+------+------+------|
+* |      |      | LEFT | DOWN | RIGHT|      |      |ACCL1 |ACCL2 |ACCL3 |      |      |
+* |------+------+------+------+------+------+------+------+------+------+------+------|
+* |      |SHTCLK|      |      |      |      |      |      |      |      |      |      |
+* |------+------+------+------+------+------+------+------+------+------+------+------|
+* |      |      |      |      |      |             |      |      |      |      |      |
+* `-----------------------------------------------------------------------------------'
+*/
+[_MOUSE] = LAYOUT_planck_grid(
+    XXXXXXX, XXXXXXX, KC_BTN1, KC_MS_U, KC_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_U,  XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, KC_ACL2, KC_WH_D,  XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, SHTCLK , KC_WH_L, XXXXXXX, KC_WH_R, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
 ),
 
 /* LOWER
@@ -228,7 +218,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT_planck_grid(
-    UK_HASH,  UK_1,    UK_2,    UK_3,    UK_4,    UK_5,    UK_6,    UK_7,    UK_8,    UK_9,    UK_0,    KC_BSPC,
+    KC_GRAVE, UK_1,    UK_2,    UK_3,    UK_4,    UK_5,    UK_6,    UK_7,    UK_8,    UK_9,    UK_0,    KC_BSPC,
     UK_BSLS,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_MINS, KC_EQL,  XXXXXXX, XXXXXXX, UK_BSLS,
     _______,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_CAPS,
     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -249,28 +239,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     RESET,   XXXXXXX, RGB_SPI, RGB_SAI, RGB_VAI, RGB_HUI, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, KC_DEL ,
     XXXXXXX, XXXXXXX, RGB_SPD, RGB_SAD, RGB_VAD, RGB_HUD, XXXXXXX, QWERTY,  COLEMAK,  XXXXXXX, XXXXXXX, _______,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,RGB_RMOD, RGB_MOD, XXXXXXX, OSRS,    XXXXXXX,  XXXXXXX, XXXXXXX, _______,
-    NK_TOGG, TG_ESC, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
-),
-
-/* SQL (NAV + Keypad)
-* ,-----------------------------------------------------------------------------------.
-* |      |VOLTBL|NONVOL|      |      |      |      | CLDS | CLSC |CLDSSC|      |      |
-* |------+------+------+------+------+------+------+------+------+------+------+------|
-* |      |TMPTBL|NONTMP|      |      |      |      |PEDPUB|FNDIDX| QAL  |      |      |
-* |------+------+------+------+------+------+------+------+------+------+------+------|
-* |      |      |      |      |      |      |      |      |      |      |      |      |
-* |------+------+------+------+------+------+------+------+------+------+------+------|
-* |      |      |      |      |      |             |      |      |      |      |      |
-* `-----------------------------------------------------------------------------------'
-*/
-
-[_SQL] = LAYOUT_planck_grid(
-    _______, VOLTBL,  NONVOL,  _______, _______, _______, _______, CLDS,    CLSC,     CLDSSC,  _______, _______,
-    _______, TMPTBL,  NONTMP,  _______, _______, _______, _______, PEDPUB,  QAL,      _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
+    NK_TOGG, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
-
 };
 
 #ifdef AUDIO_ENABLE
@@ -283,7 +253,7 @@ void keyboard_post_init_user(void) { PLAY_SONG(tone_startup); }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-    state = update_tri_layer_state(state, _NAV, _KEYPAD, _SQL);
+    state = update_tri_layer_state(state, _NAV, _RAISE, _MOUSE);
     return state;
 }
 
@@ -316,60 +286,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
-        case TMPTBL:
-            if (record->event.pressed) {
-                SEND_STRING("CREATE LOCAL TEMPORARY TABLE XXX(\n\n) CLUSTER BY YYY;");
-            }
-            return false;
-            break;
-        case NONTMP:
-            if (record->event.pressed) {
-                SEND_STRING("CREATE TABLE XXX(\n\n) CLUSTER BY YYY;");
-            }
-            return false;
-            break;
-        case VOLTBL:
-            if (record->event.pressed) {
-                SEND_STRING("CREATE VOLATILE MULTISET TABLE XXX AS\n(\n\n) WITH DATA PRIMARY INDEX (ACCT_ID) ON COMMIT PRESERVE ROWS;");
-            }
-            return false;
-            break;
-        case NONVOL:
-            if (record->event.pressed) {
-                SEND_STRING("CREATE MULTISET TABLE XXX AS\n(\n\n)WITH DATA PRIMARY INDEX (ACCT_ID);");
-            }
-            return false;
-            break;
-        case CLDS:
-            if (record->event.pressed) {
-                SEND_STRING("SELECT * FROM METADATA_USER.MDTA_CLMN_NM_ONTOLOGY WHERE CLMN_NM = 'XXX';");
-            }
-            return false;
-            break;
-        case CLSC:
-            if (record->event.pressed) {
-                SEND_STRING("SELECT * FROM DBC.Columns WHERE ColumnName = 'XXX';");
-            }
-            return false;
-            break;
-        case CLDSSC:
-            if (record->event.pressed) {
-                SEND_STRING("SELECT * FROM METADATA_USER.MDTA_CLMN_NM_ONTOLOGY WHERE FLD_DEFN_TXT LIKE 'XXX';");
-            }
-            return false;
-            break;
-        case PEDPUB:
-            if (record->event.pressed) {
-                SEND_STRING("PEDWUK_PUB.");
-            }
-            return false;
-            break;
-        case QAL:
-            if (record->event.pressed) {
-                SEND_STRING("SHOW QUALIFIED SELECT * FROM"); // Also move keypad.
-            }
-            return false;
-            break;
         case CTLSHT:
             if (record->event.pressed) {
                 register_code(KC_LSFT);
@@ -377,6 +293,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 unregister_code(KC_LSFT);
                 unregister_code(KC_LCTL);
+            }
+            return false;
+            break;
+        case SHTCLK:
+            if (record->event.pressed) {
+                register_code(KC_LSFT);
+                register_code(KC_BTN1);
+            } else {
+                unregister_code(KC_LSFT);
+                unregister_code(KC_BTN1);
             }
             return false;
             break;
