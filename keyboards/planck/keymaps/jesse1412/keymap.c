@@ -202,7 +202,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_MOUSE] = LAYOUT_planck_grid(
     XXXXXXX, XXXXXXX, KC_BTN1, KC_MS_U, KC_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_U,  XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX, KC_ACL2, KC_WH_D,  XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, SHTCLK , KC_WH_L, XXXXXXX, KC_WH_R, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, SHTCLK , KC_WBAK, XXXXXXX, KC_WFWD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
 ),
 
@@ -243,13 +243,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 )
 };
 
-#ifdef AUDIO_ENABLE
-float tone_startup[][2] = SONG(STARTUP_SOUND);
-float tone_qwerty[][2]  = SONG(QWERTY_SOUND);
-float tone_colemak[][2] = SONG(COLEMAK_SOUND);
-float tone_osrs[][2]    = SONG(SCAPE_MAIN);
-void keyboard_post_init_user(void) { PLAY_SONG(tone_startup); }
-#endif
+// #ifdef AUDIO_ENABLE
+// float tone_startup[][2] = SONG(STARTUP_SOUND);
+// float tone_qwerty[][2]  = SONG(QWERTY_SOUND);
+// float tone_colemak[][2] = SONG(COLEMAK_SOUND);
+// float tone_osrs[][2]    = SONG(SCAPE_MAIN);
+// void keyboard_post_init_user(void) { PLAY_SONG(tone_startup); }
+// #endif
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
