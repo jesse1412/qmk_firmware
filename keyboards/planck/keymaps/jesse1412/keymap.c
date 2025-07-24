@@ -18,19 +18,26 @@
 #include "muse.h"
 #include "keymap_uk.h"
 
-enum planck_layers { _COLEMAK, _QWERTY, _OSRS, _NAV, _KEYPAD, _KEYPAD_SHIFT, _LOWER, _RAISE, _MOUSE, _ADJUST };
+enum planck_layers { _COLEMAK, _COLEMAC, _QWERTY, _OSRS, _NAV, _NAV_MAC, _KEYPAD, _KEYPAD_SHIFT, _LOWER, _RAISE, _LOWER_MAC, _RAISE_MAC, _MOUSE, _ADJUST };
 
 enum planck_keycodes {
     COLEMAK = SAFE_RANGE,
+    COLEMAC,
     QWERTY,
     OSRS,
     CTLSHT,
-    SHTCLK
+    CTLSHTMC,
+    SHTCLK,
+    MACPIP,
+    MACBKSP
 };
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+#define LOWER_MAC MO(_LOWER_MAC)
+#define RAISE_MAC MO(_RAISE_MAC)
 #define NAV MO(_NAV)
+#define NAV_MAC MO(_NAV_MAC)
 #define KP MO(_KEYPAD)
 #define KP_SHFT MO(_KEYPAD_SHIFT)
 #define TG_ESC TG(_TG_ESC)
@@ -78,6 +85,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    UK_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
     KC_LCTL, KC_LGUI, KC_LALT, NAV,     LOWER,   KC_SPC,  KC_SPC,  RAISE,   KP,      KP_SHFT, UK_HASH, KC_ENT
+),
+
+[_COLEMAC] = LAYOUT_planck_grid(
+    KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, MACBKSP,
+    KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    UK_QUOT,
+    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+    KC_LGUI, KC_LCTL, KC_LALT, NAV_MAC, LOWER_MAC,KC_SPC, KC_SPC,  RAISE_MAC,KP,      KP_SHFT, UK_HASH, KC_ENT
 ),
 
 /* Qwerty
@@ -131,6 +145,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  KC_PGUP,  KC_DEL,   KC_UP,   KC_BSPC,  KC_PGDN,  XXXXXXX,   XXXXXXX,   _______,   _______,   _______,   _______,
     _______,  KC_HOME,  KC_LEFT,  KC_DOWN, KC_RGHT,  KC_END,   XXXXXXX,   XXXXXXX,   _______,   _______,   _______,   _______,
     _______,  CTLSHT,   KC_BTN4, KC_MPLY, KC_BTN5, KC_ENT,   XXXXXXX,   XXXXXXX,   _______,   _______,   _______,   _______,
+    _______,  _______,  _______, _______, _______, _______,  _______,   _______,   _______,   _______,   _______,   _______
+),
+
+[_NAV_MAC] = LAYOUT_planck_grid(
+    _______,  KC_PGUP,  KC_DEL,   KC_UP,   MACBKSP,  KC_PGDN,  XXXXXXX,   XXXXXXX,   _______,   _______,   _______,   _______,
+    _______,  KC_HOME,  KC_LEFT,  KC_DOWN, KC_RGHT,  KC_END,   XXXXXXX,   XXXXXXX,   _______,   _______,   _______,   _______,
+    _______,  CTLSHTMC, KC_BTN4, KC_MPLY, KC_BTN5, KC_ENT,   XXXXXXX,   XXXXXXX,   _______,   _______,   _______,   _______,
     _______,  _______,  _______, _______, _______, _______,  _______,   _______,   _______,   _______,   _______,   _______
 ),
 
@@ -188,6 +209,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, XXXXXXX,    XXXXXXX,    KC_LCBR, KC_RCBR, _______
 ),
 
+[_RAISE_MAC] = LAYOUT_planck_grid(
+    UK_BSLS, KC_EXLM, UK_DQUO, S(UK_3), KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LBRC, KC_RBRC, KC_BSPC,
+    MACPIP,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS,    KC_PLUS,    KC_LPRN, KC_RPRN, UK_PIPE,
+    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX,    XXXXXXX,    KC_LT,   KC_GT,   KC_CAPS,
+    _______, _______, _______, _______, _______, _______, _______, XXXXXXX,    XXXXXXX,    KC_LCBR, KC_RCBR, _______
+),
+
 /* Mouse (NAV + Raise).
 * ,-----------------------------------------------------------------------------------.
 * |      |      |LFTCLK|  UP  |RTCLK |      |      |      |      |      |      |      |
@@ -224,6 +252,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
+[_LOWER_MAC] = LAYOUT_planck_grid(
+    UK_BSLS, UK_1,    UK_2,    UK_3,    UK_4,    UK_5,    UK_6,    UK_7,    UK_8,    UK_9,    UK_0,    KC_BSPC,
+    KC_GRAVE,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_MINS, KC_EQL,  XXXXXXX, XXXXXXX, UK_BSLS,
+    _______,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_CAPS,
+    _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+),
+
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
  * |Reset |      |RGBSPI|RGBSAI|RGBVAI|RGBHUI|      |      |      |      |      |  Del |
@@ -238,7 +273,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] = LAYOUT_planck_grid(
     RESET,   XXXXXXX, RGB_SPI, RGB_SAI, RGB_VAI, RGB_HUI, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, KC_DEL ,
     XXXXXXX, XXXXXXX, RGB_SPD, RGB_SAD, RGB_VAD, RGB_HUD, XXXXXXX, QWERTY,  COLEMAK,  XXXXXXX, XXXXXXX, _______,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,RGB_RMOD, RGB_MOD, XXXXXXX, OSRS,    XXXXXXX,  XXXXXXX, XXXXXXX, _______,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,RGB_RMOD, RGB_MOD, XXXXXXX, OSRS,    COLEMAC,  XXXXXXX, XXXXXXX, _______,
     NK_TOGG, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
 )
 };
@@ -252,8 +287,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // #endif
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-    state = update_tri_layer_state(state, _NAV, _RAISE, _MOUSE);
+    if (layer_state_cmp(state, _LOWER) || layer_state_cmp(state, _RAISE)) {
+        state = update_tri_layer_state(state, _NAV, _RAISE, _MOUSE);
+        state = update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+    }
+    else {
+        state = update_tri_layer_state(state, _NAV_MAC, _RAISE_MAC, _MOUSE);
+        state = update_tri_layer_state(state, _LOWER_MAC, _RAISE_MAC, _ADJUST);
+    }
+
     return state;
 }
 
@@ -277,6 +319,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+        case COLEMAC:
+            if (record->event.pressed) {
+#ifdef AUDIO_ENABLE
+                //PLAY_SONG(tone_colemac);
+#endif
+                set_single_persistent_default_layer(_COLEMAC);
+            }
+            return false;
+            break;
         case OSRS:
             if (record->event.pressed) {
 #ifdef AUDIO_ENABLE
@@ -293,6 +344,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 unregister_code(KC_LSFT);
                 unregister_code(KC_LCTL);
+            }
+            return false;
+            break;
+        case CTLSHTMC:
+            if (record->event.pressed) {
+                register_code(KC_LSFT);
+                register_code(KC_LALT);
+            } else {
+                unregister_code(KC_LSFT);
+                unregister_code(KC_LALT);
+            }
+            return false;
+            break;
+        case MACPIP:
+            if (record->event.pressed) {
+                register_code(KC_LSFT);
+                register_code(KC_GRAVE);
+            } else {
+                unregister_code(KC_LSFT);
+                unregister_code(KC_GRAVE);
+            }
+            return false;
+            break;
+        case MACBKSP:
+            if (record->event.pressed) {
+                if (get_mods() & MOD_BIT(KC_LGUI)) { // Check if Win key is held
+                    del_mods(MOD_BIT(KC_LGUI));
+                    add_mods(MOD_BIT(KC_LALT));
+                    register_code(KC_BSPC);
+                }
+                else{
+                    register_code(KC_BSPC);
+                }
+            }
+            else{
+                unregister_code(KC_BSPC);
+                if (get_mods() & MOD_BIT(KC_LALT)) {
+                    del_mods(MOD_BIT(KC_LALT));  // Remove the temporary LALT
+                    add_mods(MOD_BIT(KC_LGUI));  // Restore LGUI if it was held before
+                }
             }
             return false;
             break;
